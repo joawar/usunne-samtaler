@@ -29,7 +29,6 @@ import numpy as np
 import json
 import pprint
 import pathlib
-import logging
 
 
 class UCCTrainer(Trainer):
@@ -197,22 +196,18 @@ def training(save=False):
 
 def get_train_val_set():
     print(f'Using {config.TRAIN_PATH} as training set')
-    logging.info(f'Using {config.TRAIN_PATH} as training set')
     train_df = pd.read_csv(config.TRAIN_PATH)
 
     if config.VAL_PATH is not None:
         print(f'Using {config.VAL_PATH} as validation set')
-        logging.info(f'Using {config.VAL_PATH} as validation set')
         val_df = pd.read_csv(config.VAL_PATH)
 
     if config.COMBINE_TRAIN_VAL:
         print('Combining training set and validation set')
-        logging.info('Combining training set and validation set')
         train_df = pd.concat([train_df, val_df], axis=0).reset_index(drop=True)
 
     if config.UNDERSAMPLING:
         print('Undersampling the train dataset')
-        logging.info('Undersampling the train dataset')
         clean_df = get_clean_df(train_df)
         train_df = make_binary_df(clean_df, config.CHARACTERISTIC)
         train_df = balance_df(train_df).reset_index(drop=True)
@@ -239,14 +234,8 @@ def get_train_val_set():
 if __name__ == '__main__':
     if config.SAVE_MODEL:
         pathlib.Path(config.SAVE_DIR).mkdir(exist_ok=True, parents=True)
-        logging.basicConfig(filename=f'{config.SAVE_DIR}/log.log')
-        logging.info('New run')
-    else:
-        logging.basicConfig(filename=f'logs/{config.RUN_NAME}.log')
-        logging.info('New run')
 
     print(f'Using {config.MODEL_STR} to load tokenizer')
-    logging.info(f'Using {config.MODEL_STR} to load tokenizer')
     tokenizer = BertTokenizer.from_pretrained(
         config.MODEL_STR,
         do_lower_case=False
@@ -254,7 +243,6 @@ if __name__ == '__main__':
 
     if config.LOSS_WEIGHTS is None:
         print('No loss weights')
-        logging.info('No loss weights')
         UCCTrainer = Trainer
 
     train_df, val_df = get_train_val_set()
@@ -265,13 +253,9 @@ if __name__ == '__main__':
             n_repeats=config.N_REPEATS
         )
         print('Running cross validation')
-        logging.info('Running cross validation')
         cross_validation()
     else:
         print('Running training')
-        logging.info('Running training')
         print(f'Load best model at end: {config.LOAD_BEST_LAST}')
-        logging.info(f'Load best model at end: {config.LOAD_BEST_LAST}')
         print(f'Save model: {config.SAVE_MODEL}')
-        logging.info(f'Save model: {config.SAVE_MODEL}')
         training(config.SAVE_MODEL)
