@@ -88,7 +88,7 @@ def get_binary_metrics(scores, labels, out_file):
         'G-Mean': np.sqrt(sensitvity*specificity),
         'Conf_Mat': conf_mat.tolist()
         }
-    update_metrics(metric_dict, out_file)
+    # update_metrics(metric_dict, out_file)
     print(metric_dict)
     del metric_dict['Conf_Mat']
     return metric_dict

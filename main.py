@@ -101,6 +101,8 @@ def cross_validation():
 
         train_data = UCCDataset(train_df, tokenizer, config.MAX_LEN)
         val_data = UCCDataset(val_df, tokenizer, config.MAX_LEN)
+        print(f'val proportion: {len(val_data)/(len(val_data) + len(train_data))}')
+        print(f'train proportion: {len(train_data)/(len(val_data) + len(train_data))}')
         total_steps = config.EPOCHS*len(train_data)/config.TRAIN_BATCH_SIZE
         warmup_steps = round(0.1*total_steps)
         log_interval = round(total_steps/config.N_LOGS)
@@ -134,10 +136,10 @@ def cross_validation():
             compute_metrics=compute_metrics
         )
         trainer.train()
-        os.rename(
-            f'{config.METRIC_FILE}.json',
-            f'{config.METRIC_FILE}_{run_number}.json'
-            )
+        # os.rename(
+        #     f'{config.METRIC_FILE}.json',
+        #     f'{config.METRIC_FILE}_{run_number}.json'
+        #     )
         run_number += 1
 
 
@@ -235,8 +237,6 @@ def get_train_val_set():
 
 
 if __name__ == '__main__':
-    print('Success.')
-    exit()
     if config.SAVE_MODEL:
         pathlib.Path(config.SAVE_DIR).mkdir(exist_ok=True, parents=True)
         logging.basicConfig(filename=f'{config.SAVE_DIR}/log.log')
