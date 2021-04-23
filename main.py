@@ -235,7 +235,8 @@ def get_train_val_set():
 
 
 if __name__ == '__main__':
-
+    print('Success.')
+    exit()
     if config.SAVE_MODEL:
         pathlib.Path(config.SAVE_DIR).mkdir(exist_ok=True, parents=True)
         logging.basicConfig(filename=f'{config.SAVE_DIR}/log.log')
