@@ -56,7 +56,7 @@ RUN_NAME = f'm-bert-{CHARACTERISTIC_NAME}-undersampling'
 # RUN_NAME = f'm-bert-{CHARACTERISTIC_NAME}-cont-undersampling'
 
 # TRAIN_PATH = 'data/norwegian/translated.csv'
-TRAIN_PATH = 'data/norwegian/train_HU.csv'
+TRAIN_PATH = 'data/train_HU.csv'
 # TRAIN_PATH = 'data/norwegian/train.csv'
 # TRAIN_PATH = 'data/UCC/full.csv'
 
@@ -65,7 +65,7 @@ SAVE_DIR = f'{OUTPUT_DIR}/{RUN_NAME}'
 METRIC_FILE = f'out/metrics/{RUN_NAME}'
 
 if 'norwegian' in TRAIN_PATH:
-    VAL_PATH = 'data/norwegian/val_HU.csv'
+    VAL_PATH = 'data/val_HU.csv'
     # VAL_PATH = 'data/norwegian/val.csv'
 else:
     VAL_PATH = 'data/UCC/val.csv'
