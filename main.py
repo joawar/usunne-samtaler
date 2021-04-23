@@ -83,8 +83,8 @@ def compute_metrics(eval_pred: EvalPrediction):
         return get_multilabel_metrics(scores, labels) 
 
 
-def cross_validation(train_df):
-    clean_df = get_clean_df(train_df)
+def cross_validation(raw_df):
+    clean_df = get_clean_df(raw_df)
     train_df = make_binary_df(clean_df, config.CHARACTERISTIC)
     run_number = 0
     for train_idx, val_idx in rskf.split(list(train_df.text), list(train_df.labels)):
