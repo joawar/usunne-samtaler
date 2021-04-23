@@ -150,8 +150,9 @@ def cross_validation(raw_df):
         #     f'{config.METRIC_FILE}.json',
         #     f'{config.METRIC_FILE}_{run_number}.json'
         #     )
+        print(f'Finished run {run_number}')
         run_number += 1
-        
+
     for key in metrics:
         avg = np.mean(metrics[key])
         print(f'{key}: {avg}')
