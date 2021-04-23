@@ -255,7 +255,7 @@ if __name__ == '__main__':
             n_repeats=config.N_REPEATS
         )
         print('Running cross validation')
-        cross_validation()
+        cross_validation(train_df)
     else:
         print('Running training')
         print(f'Load best model at end: {config.LOAD_BEST_LAST}')
