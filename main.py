@@ -156,7 +156,8 @@ def cross_validation(raw_df):
     print(f'Weight decay: {config.WEIGHT_DECAY}')
     for key in metrics:
         avg = np.mean(metrics[key])
-        print(f'{key}: {avg}')
+        sd = np.std(metrics[key])
+        print(f'{key}: {avg:.3f}({sd:.3f})')
 
 def training(save=False):
     train_data = UCCDataset(train_df, tokenizer, config.MAX_LEN)
