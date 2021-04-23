@@ -141,10 +141,10 @@ def cross_validation(raw_df):
         run_metrics = trainer.evaluate()
         if len(metrics) == 0:
             for key in run_metrics:
-                metrics[key] = [run_metrics[key][-1]]
+                metrics[key] = [run_metrics[key]]
         else:
             for key in run_metrics:
-                metrics[key].append(run_metrics[key][-1])
+                metrics[key].append(run_metrics[key])
 
         # os.rename(
         #     f'{config.METRIC_FILE}.json',
