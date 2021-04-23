@@ -18,9 +18,10 @@ embedding_visualization.py
 plot_test.py
 prep_dataset.py
 run_inference.py
-run.sh
 test.csv
 test.ipynb
 test.py
 train_UCC.py
 utils.py
+Dockerfile_actual
+init.sh
