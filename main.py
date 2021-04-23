@@ -83,22 +83,22 @@ def compute_metrics(eval_pred: EvalPrediction):
         return get_multilabel_metrics(scores, labels) 
 
 
-def cross_validation():
+def cross_validation(train_df):
     run_number = 0
-    for train_idx, val_idx in rskf.split(list(df.text), list(df.labels)):
-        X_train, X_val = df.text[train_idx], df.text[val_idx]
-        Y_train, Y_val = df.labels[train_idx], df.labels[val_idx]
-        train_df = pd.concat([X_train, Y_train], axis=1).reset_index(drop=True)
+    for train_idx, val_idx in rskf.split(list(train_df.text), list(train_df.labels)):
+        X_train, X_val = train_df.text[train_idx], train_df.text[val_idx]
+        Y_train, Y_val = train_df.labels[train_idx], train_df.labels[val_idx]
+        fold_df = pd.concat([X_train, Y_train], axis=1).reset_index(drop=True)
+        val_df = pd.concat([X_val, Y_val], axis=1).reset_index(drop=True)
         if config.UNDERSAMPLING:
-            train_df = balance_df(train_df).reset_index(drop=True)
+            fold_df = balance_df(fold_df).reset_index(drop=True)
         if config.OVERSAMPLING:
-            train_df = oversampling(train_df).reset_index(drop=True)
+            fold_df = oversampling(fold_df).reset_index(drop=True)
         if config.ENG_OVERSAMPLING:
             full_UCC = None
-            train_df = None
-        val_df = pd.concat([X_val, Y_val], axis=1).reset_index(drop=True)
+            fold_df = None
 
-        train_data = UCCDataset(train_df, tokenizer, config.MAX_LEN)
+        train_data = UCCDataset(fold_df, tokenizer, config.MAX_LEN)
         val_data = UCCDataset(val_df, tokenizer, config.MAX_LEN)
         print(f'val proportion: {len(val_data)/(len(val_data) + len(train_data))}')
         print(f'train proportion: {len(train_data)/(len(val_data) + len(train_data))}')
