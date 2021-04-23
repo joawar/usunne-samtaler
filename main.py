@@ -201,32 +201,34 @@ def get_train_val_set():
     if config.VAL_PATH is not None:
         print(f'Using {config.VAL_PATH} as validation set')
         val_df = pd.read_csv(config.VAL_PATH)
+    else:
+        val_df = None
 
     if config.COMBINE_TRAIN_VAL:
         print('Combining training set and validation set')
         train_df = pd.concat([train_df, val_df], axis=0).reset_index(drop=True)
 
-    if config.UNDERSAMPLING:
-        print('Undersampling the train dataset')
-        clean_df = get_clean_df(train_df)
-        train_df = make_binary_df(clean_df, config.CHARACTERISTIC)
-        train_df = balance_df(train_df).reset_index(drop=True)
+    # if config.UNDERSAMPLING:
+    #     print('Undersampling the train dataset')
+    #     clean_df = get_clean_df(train_df)
+    #     train_df = make_binary_df(clean_df, config.CHARACTERISTIC)
+    #     train_df = balance_df(train_df).reset_index(drop=True)
     
-    if config.ENG_OVERSAMPLING:
-        eng_df = pd.read_csv('data/UCC/full.csv')
-        if config.PURE_ENG_OVERSAMPLE:
-            print(f'Sampling pure {config.CHARACTERISTIC_NAME} datapoints')
-            train_df = english_oversampling(train_df, eng_df, config.CHARACTERISTIC_NAME, pure_only=True)
-        else:
-            print(f'Sampling {config.N_ENG_DATAPOINTS} extra {config.CHARACTERISTIC_NAME} datapoints')
-            old_len = len(train_df)
-            train_df = english_oversampling(train_df, eng_df, config.CHARACTERISTIC_NAME, n_eng=config.N_ENG_DATAPOINTS)
-            print(f'Added {len(train_df) - old_len} pure {config.CHARACTERISTIC_NAME} english datapoints')
+    # if config.ENG_OVERSAMPLING:
+    #     eng_df = pd.read_csv('data/UCC/full.csv')
+    #     if config.PURE_ENG_OVERSAMPLE:
+    #         print(f'Sampling pure {config.CHARACTERISTIC_NAME} datapoints')
+    #         train_df = english_oversampling(train_df, eng_df, config.CHARACTERISTIC_NAME, pure_only=True)
+    #     else:
+    #         print(f'Sampling {config.N_ENG_DATAPOINTS} extra {config.CHARACTERISTIC_NAME} datapoints')
+    #         old_len = len(train_df)
+    #         train_df = english_oversampling(train_df, eng_df, config.CHARACTERISTIC_NAME, n_eng=config.N_ENG_DATAPOINTS)
+    #         print(f'Added {len(train_df) - old_len} pure {config.CHARACTERISTIC_NAME} english datapoints')
 
-    clean_train = get_clean_df(train_df)
-    train_df = make_binary_df(clean_train, config.CHARACTERISTIC)
-    clean_val = get_clean_df(val_df)
-    val_df = make_binary_df(clean_val, config.CHARACTERISTIC)
+    # clean_train = get_clean_df(train_df)
+    # train_df = make_binary_df(clean_train, config.CHARACTERISTIC)
+    # clean_val = get_clean_df(val_df)
+    # val_df = make_binary_df(clean_val, config.CHARACTERISTIC)
 
     return train_df, val_df
 

@@ -25,3 +25,5 @@ train_UCC.py
 utils.py
 Dockerfile_actual
 init.sh
+Dockerfile_test
+test_print.py
