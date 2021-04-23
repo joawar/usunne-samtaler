@@ -1,1 +1,1 @@
-python main.py
+python usunne-samtaler/main.py
