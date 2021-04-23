@@ -37,7 +37,7 @@ N_REPEATS = 1
 
 # LOSS_WEIGHTS = [0.15, 0.85]
 LOSS_WEIGHTS = None
-
+TEST = 1
 
 # MODEL_STR = 'NbAiLab/nb-bert-base'
 # MODEL_STR = 'models/nb-bert-unhealthy-trans'
@@ -68,6 +68,7 @@ if 'norwegian' in TRAIN_PATH:
     # VAL_PATH = 'data/norwegian/val.csv'
 else:
     VAL_PATH = 'data/UCC/val.csv'
+
 
 if BINARY:
     COMPUTE_OBJECTIVE = 'PR_AUC'
