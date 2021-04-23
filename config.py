@@ -64,11 +64,9 @@ SAVE_DIR = f'{OUTPUT_DIR}/{RUN_NAME}'
 
 METRIC_FILE = f'out/metrics/{RUN_NAME}'
 
-if 'norwegian' in TRAIN_PATH:
-    VAL_PATH = 'data/val_HU.csv'
-    # VAL_PATH = 'data/norwegian/val.csv'
-else:
-    VAL_PATH = 'data/UCC/val.csv'
+VAL_PATH = 'data/val_HU.csv'
+# VAL_PATH = 'data/norwegian/val.csv'
+# VAL_PATH = 'data/UCC/val.csv'
 
 
 if BINARY:
