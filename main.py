@@ -87,6 +87,7 @@ def cross_validation(raw_df):
     clean_df = get_clean_df(raw_df)
     train_df = make_binary_df(clean_df, config.CHARACTERISTIC)
     run_number = 0
+    metrics = dict()
     for train_idx, val_idx in rskf.split(list(train_df.text), list(train_df.labels)):
         X_train, X_val = train_df.text[train_idx], train_df.text[val_idx]
         Y_train, Y_val = train_df.labels[train_idx], train_df.labels[val_idx]
@@ -101,9 +102,9 @@ def cross_validation(raw_df):
             fold_df = None
 
         train_data = UCCDataset(fold_df, tokenizer, config.MAX_LEN)
+        print(f'val proportion: {len(val_df)/(len(val_df) + len(fold_df))}')
+        print(f'train proportion: {len(fold_df)/(len(val_df) + len(fold_df))}')
         val_data = UCCDataset(val_df, tokenizer, config.MAX_LEN)
-        print(f'val proportion: {len(val_data)/(len(val_data) + len(train_data))}')
-        print(f'train proportion: {len(train_data)/(len(val_data) + len(train_data))}')
         total_steps = config.EPOCHS*len(train_data)/config.TRAIN_BATCH_SIZE
         warmup_steps = round(0.1*total_steps)
         log_interval = round(total_steps/config.N_LOGS)
@@ -111,7 +112,7 @@ def cross_validation(raw_df):
         training_args = TrainingArguments(
             output_dir=config.OUTPUT_DIR,
             do_train=True,
-            do_eval=True,
+            do_eval=config.EVALUATE_DURING_TRAINING,
             evaluation_strategy='steps',
             learning_rate=config.LEARNING_RATE,
             weight_decay=config.WEIGHT_DECAY,
@@ -137,12 +138,23 @@ def cross_validation(raw_df):
             compute_metrics=compute_metrics
         )
         trainer.train()
+        run_metrics = trainer.evaluate()
+        if len(metrics) == 0:
+            for key in run_metrics:
+                metrics[key] = [run_metrics[key][-1]]
+        else:
+            for key in run_metrics:
+                metrics[key].append(run_metrics[key][-1])
+
         # os.rename(
         #     f'{config.METRIC_FILE}.json',
         #     f'{config.METRIC_FILE}_{run_number}.json'
         #     )
         run_number += 1
-
+        
+    for key in metrics:
+        avg = np.mean(metrics[key])
+        print(f'{key}: {avg}')
 
 def training(save=False):
     train_data = UCCDataset(train_df, tokenizer, config.MAX_LEN)
@@ -154,7 +166,7 @@ def training(save=False):
         save_strategy=config.SAVE_STRAT,
         output_dir=config.OUTPUT_DIR,
         do_train=True,
-        do_eval=True,
+        do_eval=config.EVALUATE_DURING_TRAINING,
         evaluation_strategy='steps',
         learning_rate=config.LEARNING_RATE,
         weight_decay=config.WEIGHT_DECAY,
