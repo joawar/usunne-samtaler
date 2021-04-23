@@ -95,8 +95,8 @@ def cross_validation():
         if config.OVERSAMPLING:
             train_df = oversampling(train_df).reset_index(drop=True)
         if config.ENG_OVERSAMPLING:
-            full_UCC = 
-            train_df = 
+            full_UCC = None
+            train_df = None
         val_df = pd.concat([X_val, Y_val], axis=1).reset_index(drop=True)
 
         train_data = UCCDataset(train_df, tokenizer, config.MAX_LEN)
