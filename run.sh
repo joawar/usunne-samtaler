@@ -1,1 +1,1 @@
-python usunne-samtaler/main.py
+python usunne-samtaler/test_print.py
