@@ -93,6 +93,8 @@ def cross_validation(raw_df):
         Y_train, Y_val = train_df.labels[train_idx], train_df.labels[val_idx]
         fold_df = pd.concat([X_train, Y_train], axis=1).reset_index(drop=True)
         val_df = pd.concat([X_val, Y_val], axis=1).reset_index(drop=True)
+        print(f'val proportion: {len(val_df)/(len(val_df) + len(fold_df))}')
+        print(f'train proportion: {len(fold_df)/(len(val_df) + len(fold_df))}')
         if config.UNDERSAMPLING:
             fold_df = balance_df(fold_df).reset_index(drop=True)
         if config.OVERSAMPLING:
@@ -102,8 +104,6 @@ def cross_validation(raw_df):
             fold_df = None
 
         train_data = UCCDataset(fold_df, tokenizer, config.MAX_LEN)
-        print(f'val proportion: {len(val_df)/(len(val_df) + len(fold_df))}')
-        print(f'train proportion: {len(fold_df)/(len(val_df) + len(fold_df))}')
         val_data = UCCDataset(val_df, tokenizer, config.MAX_LEN)
         total_steps = config.EPOCHS*len(train_data)/config.TRAIN_BATCH_SIZE
         warmup_steps = round(0.1*total_steps)
@@ -113,7 +113,7 @@ def cross_validation(raw_df):
             output_dir=config.OUTPUT_DIR,
             do_train=True,
             do_eval=config.EVALUATE_DURING_TRAINING,
-            evaluation_strategy='steps',
+            evaluation_strategy=config.EVAL_STRAT,
             learning_rate=config.LEARNING_RATE,
             weight_decay=config.WEIGHT_DECAY,
             logging_steps=log_interval,
@@ -168,7 +168,7 @@ def training(save=False):
         output_dir=config.OUTPUT_DIR,
         do_train=True,
         do_eval=config.EVALUATE_DURING_TRAINING,
-        evaluation_strategy='steps',
+        evaluation_strategy=config.EVAL_STRAT,
         learning_rate=config.LEARNING_RATE,
         weight_decay=config.WEIGHT_DECAY,
         logging_steps=log_interval,

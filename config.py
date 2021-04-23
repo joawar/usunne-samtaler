@@ -1,5 +1,6 @@
 BINARY = True
 EVALUATE_DURING_TRAINING = False
+EVAL_STRAT = 'no'
 SAVE_STRAT = 'no'
 LOAD_BEST_LAST = False
 DO_LOWER_CASE = False
@@ -33,7 +34,7 @@ CHARACTERISTIC = 7  # see make_binary_df in dataset.py
 CHARACTERISTIC_NAME = 'unhealthy'
 
 # cross validation
-N_SPLITS = 5
+N_SPLITS = 2
 N_REPEATS = 1
 
 # LOSS_WEIGHTS = [0.15, 0.85]
