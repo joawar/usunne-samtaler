@@ -18,7 +18,7 @@ from dataset import (
     get_highest_confidence_datapoints,
     english_oversampling
 )
-from embedding_visualization import VisualizationCallback, get_hidden_states
+# from embedding_visualization import VisualizationCallback, get_hidden_states
 import pandas as pd
 from eval_module import get_multilabel_metrics, get_binary_metrics
 from sklearn.metrics import accuracy_score, hamming_loss
