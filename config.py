@@ -8,8 +8,8 @@ DO_LOWER_CASE = False
 UNDERSAMPLING = True
 OVERSAMPLING = False
 
-ENG_OVERSAMPLING = True
-PURE_ENG_OVERSAMPLE = True
+ENG_OVERSAMPLING = False
+PURE_ENG_OVERSAMPLE = False
 N_ENG_DATAPOINTS = 300
 
 
@@ -40,11 +40,11 @@ N_REPEATS = 1
 LOSS_WEIGHTS = None
 TEST = 1
 
-# MODEL_STR = 'NbAiLab/nb-bert-base'
+MODEL_STR = 'NbAiLab/nb-bert-base'
 # MODEL_STR = 'models/nb-bert-unhealthy-trans'
 # MODEL_STR = 'models/m-bert-unhealthy'
 # MODEL_STR = 'models/nb-bert-unhealthy-UCC'
-MODEL_STR = 'bert-base-multilingual-cased'
+# MODEL_STR = 'bert-base-multilingual-cased'
 # MODEL_STR = 'bert-base-cased'
 # MODEL_STR = 'ltgoslo/norbert'
 # MODEL_STR = 'models/norbert-unhealthy-UCC'
