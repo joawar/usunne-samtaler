@@ -154,6 +154,7 @@ def cross_validation(raw_df):
         run_number += 1
     print(f'Learning rate: {config.LEARNING_RATE}')
     print(f'Weight decay: {config.WEIGHT_DECAY}')
+    print(f'Seed: {config.SEED}')
     for key in metrics:
         avg = np.mean(metrics[key])
         sd = np.std(metrics[key])
