@@ -28,7 +28,7 @@ WARMUP_PROPORTION = 0.1
 SEED = 42
 
 LEARNING_RATE = 8e-5
-WEIGHT_DECAY = 0.05
+WEIGHT_DECAY = 0.10
 
 CHARACTERISTIC = 7  # see make_binary_df in dataset.py
 CHARACTERISTIC_NAME = 'unhealthy'
