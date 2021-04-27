@@ -27,3 +27,4 @@ Dockerfile_actual
 init.sh
 Dockerfile_test
 test_print.py
+commit_and_push.sh
