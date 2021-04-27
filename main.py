@@ -106,7 +106,7 @@ def cross_validation(raw_df):
         train_data = UCCDataset(fold_df, tokenizer, config.MAX_LEN)
         val_data = UCCDataset(val_df, tokenizer, config.MAX_LEN)
         total_steps = config.EPOCHS*len(train_data)/config.TRAIN_BATCH_SIZE
-        warmup_steps = round(0.1*total_steps)
+        warmup_steps = round(config.WARMUP_PROPORTION*total_steps)
         log_interval = round(total_steps/config.N_LOGS)
 
         training_args = TrainingArguments(
@@ -165,7 +165,7 @@ def training(save=False):
     train_data = UCCDataset(train_df, tokenizer, config.MAX_LEN)
     val_data = UCCDataset(val_df, tokenizer, config.MAX_LEN)
     total_steps = config.EPOCHS*len(train_data)/config.TRAIN_BATCH_SIZE
-    warmup_steps = round(0.1*total_steps)
+    warmup_steps = round(config.WARMUP_PROPORTION*total_steps)
     log_interval = round(total_steps/config.N_LOGS)
     training_args = TrainingArguments(
         save_strategy=config.SAVE_STRAT,
